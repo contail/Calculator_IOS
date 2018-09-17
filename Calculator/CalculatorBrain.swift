@@ -58,20 +58,7 @@ class CalculatorBrain{
         var firstOperand : Double
     }
     
-    typealias PropertyList = AnyObject
-//    var program : PropertyList{
-//        get{
-//            return internalProgram as CalculatorBrain.PropertyList
-//        }
-//        set{
-//            clear()
-//            if let arrayOfOps = newValue as? [AnyObject]{
-//                for op in arrayOfOps{
-//                    if let operand
-//                }
-//            }
-//        }
-//    }
+   
     
     private func clear(){
         accumlator = 0.0
@@ -84,6 +71,26 @@ class CalculatorBrain{
         case UnaryOperations((Double) -> Double)
         case BinaryOperations((Double, Double) -> Double)
         case Equals
+    }
+    
+    typealias PropertyList = AnyObject
+    var program : PropertyList{
+        get{
+            return internalProgram as CalculatorBrain.PropertyList
+        }
+        set{
+            clear()
+            if let arrayOfOps = newValue as? [AnyObject]{
+                for op in arrayOfOps{
+                    if let operand = op as? Double{
+                        setOperation(operand: operand)
+                    }
+                    else if let operation = op as? String{
+                        performOperation(symbol: operation)
+                    }
+                }
+            }
+        }
     }
     
     var result : Double {
